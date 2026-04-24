@@ -8,7 +8,7 @@
         body {
             background-color: #0f0004;
             color: #ffb3c6;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -17,41 +17,28 @@
             margin: 0;
             overflow: hidden;
         }
-
         h1 {
             font-weight: 300;
-            font-size: 1.5rem;
             letter-spacing: 3px;
             color: #ff0040;
             text-shadow: 0 0 15px rgba(255, 0, 64, 0.4);
-            margin-bottom: 25px;
-            text-transform: uppercase;
+            margin-bottom: 20px;
         }
-
-        /* 3D Scene Setup */
         .scene {
-            width: 85vw;
-            max-width: 340px;
+            width: 320px;
             height: 450px;
             perspective: 1200px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
-
         .card {
             width: 100%;
             height: 100%;
             position: relative;
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
         }
-
-        .card.is-flipped {
-            transform: rotateY(180deg);
-        }
-
-        /* Card Face Styling */
+        .card.is-flipped { transform: rotateY(180deg); }
         .card-face {
             position: absolute;
             width: 100%;
@@ -62,79 +49,30 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 25px;
+            padding: 20px;
             box-sizing: border-box;
             border: 1px solid rgba(255, 77, 109, 0.4);
-            background: linear-gradient(145deg, #1a0006, #0a0002);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            background: #1a0006;
             text-align: center;
         }
-
-        .card-front h2 {
-            font-size: 1.4rem;
-            color: #ff8fa3;
-            margin-bottom: 10px;
-        }
-
-        .tap-hint {
-            font-size: 0.7rem;
-            margin-top: 25px;
-            color: #ff0040;
-            letter-spacing: 2px;
-            animation: blink 2s infinite;
-        }
-
-        /* Back Face Styling */
-        .card-back {
-            transform: rotateY(180deg);
-            background: #110005;
-        }
-
+        .card-back { transform: rotateY(180deg); }
         .card-back img {
             width: 100%;
-            height: 250px;
+            height: 220px;
             object-fit: cover;
-            border-radius: 12px;
+            border-radius: 10px;
             margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background-color: #220008; /* Placeholder color */
         }
-
-        .card-back p {
-            font-size: 1.1rem;
-            line-height: 1.5;
-            color: #ffe5ec;
-            margin: 0;
-        }
-
-        /* Navigation Buttons */
-        .controls {
-            display: flex;
-            gap: 25px;
-        }
-
+        .controls { display: flex; gap: 20px; }
         button {
-            background: rgba(255, 0, 64, 0.1);
+            background: transparent;
             color: #ff8fa3;
             border: 1px solid #ff0040;
-            padding: 12px 28px;
+            padding: 10px 25px;
             border-radius: 50px;
-            font-size: 0.9rem;
             cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
-
-        button:active {
-            background: rgba(255, 0, 64, 0.3);
-            transform: scale(0.9);
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
+        .tap-hint { font-size: 10px; color: #ff0040; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -144,9 +82,10 @@
     <div class="scene">
         <div class="card" id="card" onclick="this.classList.toggle('is-flipped')">
             <div class="card-face card-front" id="frontContent">
-                </div>
-            <div class="card-face card-back" id="backContent">
-                </div>
+                <h2>Loading...</h2>
+                <p>Click "Next" if it doesn't load</p>
+            </div>
+            <div class="card-face card-back" id="backContent"></div>
         </div>
     </div>
 
@@ -156,8 +95,6 @@
     </div>
 
     <script>
-        // --- 1. CONFIGURATION: UPDATE YOUR FILENAMES HERE ---
-        // Make sure photos are named exactly as shown below (case-sensitive)
         const memories = [
             { title: "Memory 01", hint: "The beginning...", text: "第一次跟你告白.", img: "13.jpeg" },
             { title: "Memory 02", hint: "F6", text: "F6的时光 那时候还很青涩.", img: "1.jpeg" },
@@ -177,21 +114,20 @@
         let currentIdx = 0;
 
         function updateCard() {
-            const card = document.getElementById('card');
             const front = document.getElementById('frontContent');
             const back = document.getElementById('backContent');
+            const card = document.getElementById('card');
 
-            // Reset flip before changing content
             card.classList.remove('is-flipped');
 
             setTimeout(() => {
                 const m = memories[currentIdx];
                 front.innerHTML = `<h2>${m.title}</h2><p>${m.hint}</p><div class="tap-hint">TAP TO REVEAL</div>`;
                 back.innerHTML = `
-                    <img src="${m.img}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x250/110005/ff8fa3?text=Uploading...'">
-                    <p>${m.text}</p>
+                    <img src="${m.img}" onerror="this.src='https://via.placeholder.com/300x220/1a0006/ff8fa3?text=Photo+Not+Found'">
+                    <p style="font-size:14px; padding:0 10px;">${m.text}</p>
                 `;
-            }, 300);
+            }, 250);
         }
 
         function changeCard(step) {
@@ -199,8 +135,8 @@
             updateCard();
         }
 
-        // Initialize the first memory
-        updateCard();
+        // Initialize
+        window.addEventListener('load', updateCard);
     </script>
 </body>
 </html>
