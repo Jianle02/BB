@@ -6,9 +6,9 @@
     <title>Our Memories</title>
     <style>
         body {
-            background-color: #110005; /* Deep romantic dark red/black */
+            background-color: #0f0004;
             color: #ffb3c6;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -20,26 +20,28 @@
 
         h1 {
             font-weight: 300;
-            letter-spacing: 2px;
+            font-size: 1.5rem;
+            letter-spacing: 3px;
             color: #ff0040;
-            text-shadow: 0 0 10px rgba(255, 0, 64, 0.5);
-            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(255, 0, 64, 0.4);
+            margin-bottom: 25px;
+            text-transform: uppercase;
         }
 
-        /* The 3D Scene */
+        /* 3D Scene Setup */
         .scene {
-            width: 320px;
-            height: 420px;
-            perspective: 1000px;
+            width: 85vw;
+            max-width: 340px;
+            height: 450px;
+            perspective: 1200px;
             margin-bottom: 30px;
         }
 
-        /* The Flip Card */
         .card {
             width: 100%;
             height: 100%;
             position: relative;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
@@ -49,6 +51,7 @@
             transform: rotateY(180deg);
         }
 
+        /* Card Face Styling */
         .card-face {
             position: absolute;
             width: 100%;
@@ -59,76 +62,84 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 25px;
             box-sizing: border-box;
-            border: 1px solid rgba(255, 77, 109, 0.3);
-            background: linear-gradient(145deg, rgba(255, 77, 109, 0.1), rgba(255, 0, 64, 0.05));
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 77, 109, 0.4);
+            background: linear-gradient(145deg, #1a0006, #0a0002);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
             text-align: center;
         }
 
-        /* Front Face Style */
         .card-front h2 {
-            font-size: 22px;
+            font-size: 1.4rem;
             color: #ff8fa3;
+            margin-bottom: 10px;
         }
 
         .tap-hint {
-            font-size: 12px;
-            margin-top: 20px;
-            opacity: 0.6;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 0.7rem;
+            margin-top: 25px;
+            color: #ff0040;
+            letter-spacing: 2px;
+            animation: blink 2s infinite;
         }
 
-        /* Back Face Style */
+        /* Back Face Styling */
         .card-back {
             transform: rotateY(180deg);
-            background: rgba(20, 0, 5, 0.95);
+            background: #110005;
         }
 
         .card-back img {
             width: 100%;
-            max-height: 240px;
+            height: 250px;
             object-fit: cover;
             border-radius: 12px;
             margin-bottom: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: #220008; /* Placeholder color */
         }
 
         .card-back p {
-            font-size: 16px;
-            line-height: 1.4;
+            font-size: 1.1rem;
+            line-height: 1.5;
             color: #ffe5ec;
+            margin: 0;
         }
 
         /* Navigation Buttons */
         .controls {
             display: flex;
-            gap: 20px;
+            gap: 25px;
         }
 
         button {
-            background: transparent;
+            background: rgba(255, 0, 64, 0.1);
             color: #ff8fa3;
-            border: 1px solid #ff8fa3;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 14px;
+            border: 1px solid #ff0040;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: 0.3s;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         button:active {
-            background: rgba(255, 77, 109, 0.2);
-            transform: scale(0.95);
+            background: rgba(255, 0, 64, 0.3);
+            transform: scale(0.9);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <h1>For My Love</h1>
+    <h1>For My Girl ❤️</h1>
 
     <div class="scene">
         <div class="card" id="card" onclick="this.classList.toggle('is-flipped')">
@@ -140,32 +151,27 @@
     </div>
 
     <div class="controls">
-        <button onclick="changeCard(-1)">❮ Prev</button>
-        <button onclick="changeCard(1)">Next ❯</button>
+        <button onclick="changeCard(-1)">Prev</button>
+        <button onclick="changeCard(1)">Next</button>
     </div>
 
     <script>
-        // --- 1. LIST YOUR MEMORIES HERE ---
-        // 'img' must match your filename on GitHub (case-sensitive!)
+        // --- 1. CONFIGURATION: UPDATE YOUR FILENAMES HERE ---
+        // Make sure photos are named exactly as shown below (case-sensitive)
         const memories = [
-            { 
-                title: "Memory #1", 
-                hint: "The day we first met...", 
-                text: "I still remember exactly what you were wearing. You looked beautiful.",
-                img: "first_date.jpg" 
-            },
-            { 
-                title: "Memory #2", 
-                hint: "Our favorite dinner date", 
-                text: "The food was great, but the company was even better.",
-                img: "dinner.png" 
-            },
-            { 
-                title: "Memory #3", 
-                hint: "Happy Birthday!", 
-                text: "I am so lucky to have you. Here's to many more memories together.",
-                img: "birthday.jpg" 
-            }
+            { title: "Memory 01", hint: "The beginning...", text: "第一次跟你告白.", img: "13.jpeg" },
+            { title: "Memory 02", hint: "F6", text: "F6的时光 那时候还很青涩.", img: "1.jpeg" },
+            { title: "Memory 03", hint: "夕阳", text: "和你在夕阳下散步.", img: "2.jpeg" },
+            { title: "Memory 04", hint: "吹头发", text: "第一次帮你吹头发.", img: "4.jpeg" },
+            { title: "Memory 05", hint: "Ipoh Countdown", text: "一起过夜 很大胆蛤.", img: "7.jpeg" },
+            { title: "Memory 06", hint: "3周年", text: "Pooh大集合.", img: "8.jpeg" },
+            { title: "Memory 07", hint: "完美", text: "So CUTE!!!!.", img: "9.jpeg" },
+            { title: "Memory 08", hint: "FYP", text: "陪你做FYP的日子.", img: "6.jpeg" },
+            { title: "Memory 09", hint: "毕业", text: "大学最想和你一起毕业.", img: "5.jpeg" },
+            { title: "Memory 10", hint: "CNY", text: "不知你在庙里许什么愿望 反正我的愿望就是一直在一起", img: "11.jpeg" }
+            { title: "Memory 11", hint: "日常拍照", text: "Say CHEESE.", img: "10.jpeg" },
+            { title: "Memory 12", hint: "那个笑容", text: "这是最美的照片 它不丑.", img: "3.jpeg" },
+            { title: "Memory 13", hint: "那个笑容", text: "这是最美的照片 它不丑.", img: "3.jpeg" },
         ];
 
         let currentIdx = 0;
@@ -175,14 +181,14 @@
             const front = document.getElementById('frontContent');
             const back = document.getElementById('backContent');
 
-            // Flip card back to front before changing data
+            // Reset flip before changing content
             card.classList.remove('is-flipped');
 
             setTimeout(() => {
                 const m = memories[currentIdx];
-                front.innerHTML = `<h2>${m.title}</h2><p>${m.hint}</p><div class="tap-hint">Tap to see memory</div>`;
+                front.innerHTML = `<h2>${m.title}</h2><p>${m.hint}</p><div class="tap-hint">TAP TO REVEAL</div>`;
                 back.innerHTML = `
-                    <img src="${m.img}" onerror="this.src='https://via.placeholder.com/300x240/110005/ff8fa3?text=Photo+Not+Found'">
+                    <img src="${m.img}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x250/110005/ff8fa3?text=Uploading...'">
                     <p>${m.text}</p>
                 `;
             }, 300);
@@ -193,7 +199,7 @@
             updateCard();
         }
 
-        // Initialize first card
+        // Initialize the first memory
         updateCard();
     </script>
 </body>
